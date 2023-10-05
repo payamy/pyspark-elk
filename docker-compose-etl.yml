@@ -1,0 +1,36 @@
+version: '3'
+
+services:
+  spark-master:
+    image: artist-etl:0.0.1
+    environment:
+      - SPARK_MODE=master
+      - SPARK_RPC_AUTHENTICATION_ENABLED=no
+      - SPARK_RPC_ENCRYPTION_ENABLED=no
+      - SPARK_LOCAL_STORAGE_ENCRYPTION_ENABLED=no
+      - SPARK_SSL_ENABLED=no
+    ports:
+      - 8080:8080
+      - 7077:7077
+      - 4040:4040
+    volumes:
+      - ./etl/data:/etl/data
+      - ./etl/app:/etl/app
+
+  spark-worker:
+    image: artist-etl:0.0.1
+    environment:
+      - SPARK_MODE=worker
+      - SPARK_MASTER_URL=spark://spark-master:7077
+      - SPARK_WORKER_MEMORY=1G
+      - SPARK_WORKER_CORES=2
+      - SPARK_RPC_AUTHENTICATION_ENABLED=no
+      - SPARK_RPC_ENCRYPTION_ENABLED=no
+      - SPARK_LOCAL_STORAGE_ENCRYPTION_ENABLED=no
+      - SPARK_SSL_ENABLED=no
+    deploy:
+      mode: replicated
+      replicas: 2
+    volumes:
+      - ./etl/data:/etl/data
+      - ./etl/app:/etl/app
