@@ -9,4 +9,4 @@ The ETL Program written in PySpark reads data from a CSV file consisting of song
 Elasticsearch has been used as the sink database of the ETL App.
 
 ### Backend App
-The backend application is written in FastAPI. The app is responsible for authentication users with JWT, and responding to users queries to the Elasticsearch database.
+The backend application is written in FastAPI. The app is responsible for authenticating users with JWT, and responding to users queries to the Elasticsearch database.
